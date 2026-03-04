@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>EduStock Inventory</title>
+</head>
+<body>
+
+<h1>EduStock - School Inventory</h1>
+
+<input type="text" id="itemName" placeholder="Item Name">
+<input type="number" id="quantity" placeholder="Quantity">
+<button onclick="addItem()">Add Item</button>
+
+<h3>Inventory List:</h3>
+<ul id="inventoryList"></ul>
+
+<script>
+function addItem() {
+  let name = document.getElementById("itemName").value;
+  let qty = document.getElementById("quantity").value;
+
+  let list = document.getElementById("inventoryList");
+  let li = document.createElement("li");
+  li.textContent = name + " - Quantity: " + qty;
+
+  list.appendChild(li);
+}
+</script>
+
+</body>
+</html>
