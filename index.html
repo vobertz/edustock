@@ -1,30 +1,172 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>EduStock Inventory</title>
+  <title>EduStock | School Inventory System</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f8fc;
+    }
+
+    header {
+      background-color: #0d47a1;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .container {
+      padding: 30px;
+      text-align: center;
+    }
+
+    input {
+      padding: 10px;
+      margin: 5px;
+      width: 200px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      padding: 10px 15px;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+      background-color: #1565c0;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0d47a1;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      margin: 20px auto;
+      width: 80%;
+      max-width: 500px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    ul {
+      text-align: left;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .welcome {
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .logo {
+      font-size: 30px;
+      font-weight: bold;
+      color: #1565c0;
+    }
+
+  </style>
 </head>
+
 <body>
 
-<h1>EduStock - School Inventory</h1>
+<header>
+  EduStock | School Inventory System
+</header>
 
-<input type="text" id="itemName" placeholder="Item Name">
-<input type="number" id="quantity" placeholder="Quantity">
-<button onclick="addItem()">Add Item</button>
+<!-- WELCOME PAGE -->
+<div class="container" id="welcomePage">
+  <div class="card">
+    <div class="logo">📘 EduStock</div>
+    <p class="welcome">
+      Welcome to EduStock – A Real-Time School Inventory Tracker designed to manage books, equipment, and educational tools efficiently.
+    </p>
+    <button onclick="showLogin()">Admin Login</button>
+  </div>
+</div>
 
-<h3>Inventory List:</h3>
-<ul id="inventoryList"></ul>
+<!-- LOGIN PAGE -->
+<div class="container hidden" id="loginPage">
+  <div class="card">
+    <h2>Admin Login</h2>
+    <input type="text" id="username" placeholder="Username"><br>
+    <input type="password" id="password" placeholder="Password"><br>
+    <button onclick="login()">Login</button>
+    <p id="loginError" style="color:red;"></p>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="container hidden" id="dashboard">
+  <div class="card">
+    <h2>Inventory Dashboard</h2>
+
+    <input type="text" id="itemName" placeholder="Item Name">
+    <input type="number" id="quantity" placeholder="Quantity">
+    <button onclick="addItem()">Add Item</button>
+
+    <h3>Total Items: <span id="totalCount">0</span></h3>
+
+    <ul id="inventoryList"></ul>
+
+    <button onclick="logout()">Logout</button>
+  </div>
+</div>
 
 <script>
-function addItem() {
-  let name = document.getElementById("itemName").value;
-  let qty = document.getElementById("quantity").value;
+  let total = 0;
 
-  let list = document.getElementById("inventoryList");
-  let li = document.createElement("li");
-  li.textContent = name + " - Quantity: " + qty;
+  function showLogin() {
+    document.getElementById("welcomePage").classList.add("hidden");
+    document.getElementById("loginPage").classList.remove("hidden");
+  }
 
-  list.appendChild(li);
-}
+  function login() {
+    let user = document.getElementById("username").value;
+    let pass = document.getElementById("password").value;
+
+    // Simple demo login
+    if (user === "admin" && pass === "1234") {
+      document.getElementById("loginPage").classList.add("hidden");
+      document.getElementById("dashboard").classList.remove("hidden");
+    } else {
+      document.getElementById("loginError").textContent = "Invalid login details.";
+    }
+  }
+
+  function addItem() {
+    let name = document.getElementById("itemName").value;
+    let qty = parseInt(document.getElementById("quantity").value);
+
+    if (!name || !qty) return;
+
+    let list = document.getElementById("inventoryList");
+    let li = document.createElement("li");
+    li.textContent = name + " - Quantity: " + qty;
+
+    list.appendChild(li);
+
+    total += qty;
+    document.getElementById("totalCount").textContent = total;
+
+    document.getElementById("itemName").value = "";
+    document.getElementById("quantity").value = "";
+  }
+
+  function logout() {
+    document.getElementById("dashboard").classList.add("hidden");
+    document.getElementById("welcomePage").classList.remove("hidden");
+  }
 </script>
 
 </body>
